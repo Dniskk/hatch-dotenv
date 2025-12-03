@@ -45,6 +45,7 @@ dependency-groups = ["test", "lint"]
 
 [tool.hatch.envs.types]
 installer = "uv"
+dependency-groups = ["test"]
 extra-dependencies = ["basedpyright"]
 
 [tool.hatch.envs.types.scripts]
