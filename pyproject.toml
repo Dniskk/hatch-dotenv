@@ -1,0 +1,149 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hatch-dotenv"
+dynamic = ["version"]
+description = 'Hatch plugin that enables dotenv support'
+readme = "README.md"
+requires-python = ">=3.10,<=3.14"
+license = "MIT"
+keywords = []
+authors = [{ name = "Dennis Cost", email = "dnis.kk@gmail.com" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/Dniskk/hatch-dotenv#readme"
+Issues = "https://github.com/Dniskk/hatch-dotenv/issues"
+Source = "https://github.com/Dniskk/hatch-dotenv"
+
+[tool.hatch.version]
+path = "src/hatch_dotenv/__about__.py"
+
+[dependency-groups]
+test = ["pytest>=7.0.0", "pytest-cov>=4.1.0", "pytest-xdist"]
+lint = ["ruff", "basedpyright"]
+
+[tool.hatch.env.default]
+installer = "uv"
+
+[tool.hatch.envs.dev]
+installer = "uv"
+dependency-groups = ["test", "lint"]
+
+[tool.hatch.envs.types]
+installer = "uv"
+extra-dependencies = ["basedpyright"]
+
+[tool.hatch.envs.types.scripts]
+check = "basedpyright {args:src/hatch_dotenv tests}"
+
+[tool.hatch.envs.pre-commit]
+installer = "uv"
+detached = true
+dependencies = ["prek"]
+
+[tool.coverage.run]
+source_pkgs = ["hatch_dotenv", "tests"]
+branch = true
+parallel = true
+omit = ["src/hatch_dotenv/__about__.py"]
+
+[tool.coverage.paths]
+hatch_dotenv = ["src/hatch_dotenv", "*/hatch-dotenv/src/hatch_dotenv"]
+tests = ["tests", "*/hatch-dotenv/tests"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+[tool.hatch.envs.hatch-static-analysis]
+config-path = "none"
+dependencies = ["ruff>=0.12.9"]
+
+[tool.ruff]
+preview = true
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = [
+    "ERA",
+    "YTT",
+    "ANN",
+    "ASYNC",
+    "S",
+    "FBT",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "DTZ",
+    "EM",
+    "EXE",
+    "FIX",
+    "FA",
+    "INT",
+    "ISC",
+    "ICN",
+    "INP",
+    "PIE",
+    "T20",
+    "PYI",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SIM",
+    "SLOT",
+    "TID",
+    "TC",
+    "ARG",
+    "PTH",
+    "FLY",
+    "I",
+    "N",
+    "PERF",
+    "E",
+    "W",
+    "DOC",
+    "D",
+    "F",
+    "PL",
+    "UP",
+    "FURB",
+    "RUF",
+    "TRY",
+    ]
+
+extend-ignore = [
+  "ANN002",
+  "COM812",
+  "D100",
+  "D104",
+  "PLR0904",
+  "PLR0913",
+  "S311",
+  "PLR0914",
+  "D107",
+  "PLR0911",
+  "ANN401",
+  "PLR0912"
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"**/tests/**" = ["S101", "D103", "PLC2701", "PLR2004", "DOC", "SLF001"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
