@@ -22,7 +22,10 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = ["python-dotenv>=1.0.0", "hatch", "typing_extensions>=4.0.0"]
+
+[project.entry-points.hatch]
+dotenv = "hatch_dotenv.hooks"
 
 [project.urls]
 Documentation = "https://github.com/Dniskk/hatch-dotenv#readme"
@@ -144,7 +147,11 @@ extend-ignore = [
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
-"**/tests/**" = ["S101", "D103", "PLC2701", "PLR2004", "DOC", "SLF001"]
+"**/tests/**" = ["S101", "D103", "PLC2701", "PLR2004", "DOC", "SLF001", "PLR6803"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.basedpyright]
+reportAny = false
+reportExplicitAny = false
