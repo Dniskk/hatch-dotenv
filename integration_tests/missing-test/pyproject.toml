@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "missing-test"
+dynamic = ["version"]
+description = ''
+requires-python = ">=3.10,<=3.14"
+license = "MIT"
+keywords = []
+authors = []
+classifiers = []
+dependencies = []
+
+[tool.hatch.version]
+path = "src/missing_test/__about__.py"
+
+[tool.hatch.env]
+requires = ["hatch-dotenv@file:///Users/dennis/projects/hatch-dotenv"]
+
+[tool.hatch.env.collectors.dennis.default]
+env-files = [".env.test", ".env"]
+
+[tool.hatch.env.default]
+installer = "uv"
