@@ -13,19 +13,21 @@ pip install hatch-dotenv
 
 ## Usage
 
-Add `hatch-dotenv` to your environment requirements and specify `env-files`:
+Add `hatch-dotenv` to your environment requirements and configure the collector for each environment:
 
 ```toml
 [tool.hatch.env]
 requires = ["hatch-dotenv"]
 
-[tool.hatch.envs.default]
+# Configure env-files for the default environment
+[tool.hatch.env.collectors.dennis.default]
 env-files = [".env", ".env.local"]
 
-[tool.hatch.envs.dev]
+# Configure env-files for other environments
+[tool.hatch.env.collectors.dennis.dev]
 env-files = [".env", ".env.local", ".env.development"]
 
-[tool.hatch.envs.production]
+[tool.hatch.env.collectors.dennis.production]
 env-files = [".env", ".env.production"]
 ```
 
@@ -37,13 +39,32 @@ requires = ["hatch-dotenv", "hatch-pip-compile"]
 
 [tool.hatch.envs.locked]
 type = "pip-compile"
+
+[tool.hatch.env.collectors.dennis.locked]
 env-files = [".env", ".env.local"]
+```
+
+## Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `env-files` | list[str] | `[]` | List of `.env` file paths to load |
+| `fail-on-missing` | bool | `false` | Raise an error if a file is missing |
+
+### Strict mode
+
+To fail when an env file is missing, set `fail-on-missing = true`:
+
+```toml
+[tool.hatch.env.collectors.dennis.default]
+env-files = [".env"]
+fail-on-missing = true
 ```
 
 ## Behavior
 
 - Files are loaded in order; later files override earlier ones
-- Missing files emit a warning but don't cause failures
+- Missing files are silently skipped (unless `fail-on-missing = true`)
 - Variables from `.env` files override existing `env-vars` in config
 
 ## License
