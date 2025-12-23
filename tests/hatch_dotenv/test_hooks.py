@@ -73,7 +73,7 @@ class TestDotenvCollector:
 
     def test_plugin_name(self) -> None:
         """Plugin name should be correct."""
-        assert DotenvCollector.PLUGIN_NAME == "dennis"
+        assert DotenvCollector.PLUGIN_NAME == "dotenv"
 
     def test_get_initial_config_returns_empty(self) -> None:
         """get_initial_config should return empty dict."""

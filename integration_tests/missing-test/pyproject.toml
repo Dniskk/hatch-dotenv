@@ -19,7 +19,7 @@ path = "src/missing_test/__about__.py"
 [tool.hatch.env]
 requires = ["hatch-dotenv@file:///Users/dennis/projects/hatch-dotenv"]
 
-[tool.hatch.env.collectors.dennis.default]
+[tool.hatch.env.collectors.dotenv.default]
 env-files = [".env.test", ".env"]
 
 [tool.hatch.env.default]

@@ -69,7 +69,7 @@ class DotenvCollector(EnvironmentCollectorInterface):
         ```
     """
 
-    PLUGIN_NAME: ClassVar[str] = "dennis"
+    PLUGIN_NAME: ClassVar[str] = "dotenv"
 
     @override
     def get_initial_config(self) -> dict[str, dict[str, Any]]:

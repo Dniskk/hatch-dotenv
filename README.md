@@ -20,14 +20,14 @@ Add `hatch-dotenv` to your environment requirements and configure the collector 
 requires = ["hatch-dotenv"]
 
 # Configure env-files for the default environment
-[tool.hatch.env.collectors.dennis.default]
+[tool.hatch.env.collectors.dotenv.default]
 env-files = [".env", ".env.local"]
 
 # Configure env-files for other environments
-[tool.hatch.env.collectors.dennis.dev]
+[tool.hatch.env.collectors.dotenv.dev]
 env-files = [".env", ".env.local", ".env.development"]
 
-[tool.hatch.env.collectors.dennis.production]
+[tool.hatch.env.collectors.dotenv.production]
 env-files = [".env", ".env.production"]
 ```
 
@@ -40,7 +40,7 @@ requires = ["hatch-dotenv", "hatch-pip-compile"]
 [tool.hatch.envs.locked]
 type = "pip-compile"
 
-[tool.hatch.env.collectors.dennis.locked]
+[tool.hatch.env.collectors.dotenv.locked]
 env-files = [".env", ".env.local"]
 ```
 
@@ -56,7 +56,7 @@ env-files = [".env", ".env.local"]
 To fail when an env file is missing, set `fail-on-missing = true`:
 
 ```toml
-[tool.hatch.env.collectors.dennis.default]
+[tool.hatch.env.collectors.dotenv.default]
 env-files = [".env"]
 fail-on-missing = true
 ```
