@@ -24,16 +24,18 @@ jobs:
 
   bump-version:
     name: Bump Version
+    if: "!startsWith(github.event.head_commit.message, 'bump:')"
     needs: unit-tests
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - uses: ./.github/actions/bump-version
+      - name: Bump version and create changelog
+        uses: commitizen-tools/commitizen-action@master
         with:
-          prerelease: ${{ github.event_name == 'push' && 'rc' || inputs.release_type }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          extra_requirements: packaging
+          prerelease: ${{ github.event_name == 'push' && 'rc' || inputs.release_type != 'release' && inputs.release_type || '' }}
