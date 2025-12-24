@@ -1,0 +1,11 @@
+name: Setup Hatch
+description: Set up Hatch and UV for CI
+
+runs:
+  using: composite
+  steps:
+    - name: Install UV
+      uses: astral-sh/setup-uv@v7
+
+    - name: Install Hatch
+      uses: pypa/hatch@install

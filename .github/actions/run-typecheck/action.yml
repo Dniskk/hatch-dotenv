@@ -1,0 +1,15 @@
+name: Run Type Check
+description: Run basedpyright type checking
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Hatch
+      uses: ./.github/actions/setup-hatch
+
+    - name: Run basedpyright
+      shell: bash
+      run: hatch run types:check

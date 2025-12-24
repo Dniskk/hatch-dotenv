@@ -38,13 +38,15 @@ path = "src/hatch_dotenv/__about__.py"
 [dependency-groups]
 test = ["pytest>=7.0.0", "pytest-cov>=4.1.0", "pytest-xdist"]
 lint = ["ruff", "basedpyright"]
+pre-commit = ["prek"]
 
 [tool.hatch.env.default]
 installer = "uv"
 
 [tool.hatch.envs.dev]
 installer = "uv"
-dependency-groups = ["test", "lint"]
+dependency-groups = ["test", "lint", "pre-commit"]
+post-install-commands = ["hatch run prek install"]
 
 [tool.hatch.envs.types]
 installer = "uv"
@@ -53,11 +55,6 @@ extra-dependencies = ["basedpyright"]
 
 [tool.hatch.envs.types.scripts]
 check = "basedpyright {args:src/hatch_dotenv tests}"
-
-[tool.hatch.envs.pre-commit]
-installer = "uv"
-detached = true
-dependencies = ["prek"]
 
 [tool.coverage.run]
 source_pkgs = ["hatch_dotenv", "tests"]
@@ -147,7 +144,7 @@ extend-ignore = [
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
-"**/tests/**" = ["S101", "D103", "PLC2701", "PLR2004", "DOC", "SLF001", "PLR6803"]
+"**/tests/**" = ["S101", "D103", "PLC2701", "PLR2004", "DOC", "SLF001", "PLR6301"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

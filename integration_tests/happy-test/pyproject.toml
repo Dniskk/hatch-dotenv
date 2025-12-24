@@ -17,7 +17,7 @@ dependencies = []
 path = "src/happy_test/__about__.py"
 
 [tool.hatch.env]
-requires = ["hatch-dotenv@file:///Users/dennis/projects/hatch-dotenv"]
+requires = ["hatch-dotenv"]
 
 [tool.hatch.env.collectors.dotenv.default]
 env-files = [".env", ".env.local"]

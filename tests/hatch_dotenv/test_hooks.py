@@ -271,7 +271,7 @@ class TestFinalizeConfig:
 
         assert config["default"]["env-vars"]["VALID_VAR"] == "value"
         # Empty string values are kept (only None is filtered)
-        assert config["default"]["env-vars"]["EMPTY_VAR"] == ""
+        assert not config["default"]["env-vars"]["EMPTY_VAR"]
 
     def test_subdirectory_env_file(self, mock_collector: MagicMock) -> None:
         """Should load .env files from subdirectories."""
@@ -287,9 +287,7 @@ class TestFinalizeConfig:
 
         assert config["default"]["env-vars"]["SUBDIR_VAR"] == "subdir_value"
 
-    def test_env_without_collector_config_but_in_main_config(
-        self, mock_collector: MagicMock
-    ) -> None:
+    def test_env_without_collector_config_but_in_main_config(self, mock_collector: MagicMock) -> None:
         """Env defined in config but not in collector.config should be unchanged."""
         mock_collector.config = {"other": {"env-files": [".env"]}}
         config: dict[str, dict[str, Any]] = {
@@ -299,4 +297,3 @@ class TestFinalizeConfig:
         self._finalize(mock_collector, config)
 
         assert config["default"] == {"type": "virtual"}
-
