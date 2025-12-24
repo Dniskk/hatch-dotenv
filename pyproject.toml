@@ -156,7 +156,8 @@ reportExplicitAny = false
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version_provider = "pep440"
+version_provider = "commitizen"
 tag_format = "v$version"
 version_files = ["src/hatch_dotenv/__about__.py:__version__"]
 annotated_tag = true
+version = "0.0.1"
