@@ -170,4 +170,4 @@ tag_format = "v$version"
 version_files = ["src/hatch_dotenv/__about__.py:__version__"]
 update_changelog_on_bump = true
 annotated_tag = true
-version = "0.1.0"
+version = "0.1.1"
