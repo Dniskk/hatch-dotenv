@@ -25,7 +25,7 @@ classifiers = [
 dependencies = ["python-dotenv>=1.0.0", "hatch", "typing_extensions>=4.0.0"]
 
 [project.entry-points.hatch]
-dotenv = "hatch_dotenv.hooks"
+dotenv = "hatch_dotenv.plugin"
 
 [project.urls]
 Documentation = "https://github.com/Dniskk/hatch-dotenv#readme"
@@ -71,8 +71,6 @@ tests = ["tests", "*/hatch-dotenv/tests"]
 exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
 
 
-
-
 [tool.hatch.envs.hatch-static-analysis]
 config-path = "none"
 dependencies = ["ruff>=0.12.9"]
@@ -83,54 +81,54 @@ line-length = 120
 
 [tool.ruff.lint]
 extend-select = [
-    "ERA",
-    "YTT",
-    "ANN",
-    "ASYNC",
-    "S",
-    "FBT",
-    "B",
-    "A",
-    "COM",
-    "C4",
-    "DTZ",
-    "EM",
-    "EXE",
-    "FIX",
-    "FA",
-    "INT",
-    "ISC",
-    "ICN",
-    "INP",
-    "PIE",
-    "T20",
-    "PYI",
-    "PT",
-    "Q",
-    "RSE",
-    "RET",
-    "SLF",
-    "SIM",
-    "SLOT",
-    "TID",
-    "TC",
-    "ARG",
-    "PTH",
-    "FLY",
-    "I",
-    "N",
-    "PERF",
-    "E",
-    "W",
-    "DOC",
-    "D",
-    "F",
-    "PL",
-    "UP",
-    "FURB",
-    "RUF",
-    "TRY",
-    ]
+  "ERA",
+  "YTT",
+  "ANN",
+  "ASYNC",
+  "S",
+  "FBT",
+  "B",
+  "A",
+  "COM",
+  "C4",
+  "DTZ",
+  "EM",
+  "EXE",
+  "FIX",
+  "FA",
+  "INT",
+  "ISC",
+  "ICN",
+  "INP",
+  "PIE",
+  "T20",
+  "PYI",
+  "PT",
+  "Q",
+  "RSE",
+  "RET",
+  "SLF",
+  "SIM",
+  "SLOT",
+  "TID",
+  "TC",
+  "ARG",
+  "PTH",
+  "FLY",
+  "I",
+  "N",
+  "PERF",
+  "E",
+  "W",
+  "DOC",
+  "D",
+  "F",
+  "PL",
+  "UP",
+  "FURB",
+  "RUF",
+  "TRY",
+]
 
 extend-ignore = [
   "ANN002",
@@ -144,11 +142,19 @@ extend-ignore = [
   "D107",
   "PLR0911",
   "ANN401",
-  "PLR0912"
+  "PLR0912",
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
-"**/tests/**" = ["S101", "D103", "PLC2701", "PLR2004", "DOC", "SLF001", "PLR6301"]
+"**/tests/**" = [
+  "S101",
+  "D103",
+  "PLC2701",
+  "PLR2004",
+  "DOC",
+  "SLF001",
+  "PLR6301",
+]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
