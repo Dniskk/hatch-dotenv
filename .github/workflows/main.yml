@@ -3,6 +3,16 @@ name: Main
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Release type"
+        required: true
+        default: "rc"
+        type: choice
+        options:
+          - rc
+          - release
 
 jobs:
   unit-tests:
@@ -11,3 +21,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/run-unit-tests
+
+  bump-version:
+    name: Bump Version
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/bump-version
+        with:
+          prerelease: ${{ github.event_name == 'push' && 'rc' || inputs.release_type }}

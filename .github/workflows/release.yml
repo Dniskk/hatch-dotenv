@@ -6,8 +6,26 @@ on:
       - "v*"
 
 jobs:
+  publish:
+    name: Publish to PyPI
+    if: ${{ !contains(github.ref_name, 'rc') }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-hatch
+
+      - name: Build package
+        run: hatch build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
   integration-tests:
     name: Integration Tests
+    needs: publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

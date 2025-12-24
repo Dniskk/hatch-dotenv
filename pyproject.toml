@@ -39,13 +39,14 @@ path = "src/hatch_dotenv/__about__.py"
 test = ["pytest>=7.0.0", "pytest-cov>=4.1.0", "pytest-xdist"]
 lint = ["ruff", "basedpyright"]
 pre-commit = ["prek"]
+misc = ["commitizen"]
 
 [tool.hatch.env.default]
 installer = "uv"
 
 [tool.hatch.envs.dev]
 installer = "uv"
-dependency-groups = ["test", "lint", "pre-commit"]
+dependency-groups = ["test", "lint", "pre-commit", "misc"]
 post-install-commands = ["hatch run prek install"]
 
 [tool.hatch.envs.types]
@@ -152,3 +153,10 @@ convention = "google"
 [tool.basedpyright]
 reportAny = false
 reportExplicitAny = false
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version_provider = "pep440"
+tag_format = "v$version"
+version_files = ["src/hatch_dotenv/__about__.py:__version__"]
+annotated_tag = true
