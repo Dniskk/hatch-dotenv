@@ -12,7 +12,6 @@ license = "MIT"
 keywords = []
 authors = [{ name = "Dennis Cost", email = "dnis.kk@gmail.com" }]
 classifiers = [
-  "Development Status :: 4 - Beta",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -21,6 +20,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
+  "Framework :: Hatch",
 ]
 dependencies = ["python-dotenv>=1.0.0", "hatch", "typing_extensions>=4.0.0"]
 
