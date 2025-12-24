@@ -72,6 +72,7 @@ exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
 
 
 
+
 [tool.hatch.envs.hatch-static-analysis]
 config-path = "none"
 dependencies = ["ruff>=0.12.9"]
@@ -163,4 +164,4 @@ tag_format = "v$version"
 version_files = ["src/hatch_dotenv/__about__.py:__version__"]
 update_changelog_on_bump = true
 annotated_tag = true
-version = "0.1.0rc1"
+version = "0.1.0"
