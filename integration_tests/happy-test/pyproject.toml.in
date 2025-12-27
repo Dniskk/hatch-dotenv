@@ -20,7 +20,7 @@ path = "src/happy_test/__about__.py"
 requires = ["{{HATCH_DOTENV_PACKAGE}}"]
 
 [tool.hatch.env.collectors.dotenv.default]
-env-files = [".env", ".env.local"]
+env-files = [".env.test", ".env.local"]
 
 [tool.hatch.envs.default]
 installer = "uv"
