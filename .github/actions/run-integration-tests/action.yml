@@ -1,6 +1,12 @@
 name: Run Integration Tests
 description: Run integration tests for hatch-dotenv plugin
 
+inputs:
+  package:
+    description: 'The hatch-dotenv package requirement (e.g., "hatch-dotenv" for PyPI or "hatch-dotenv @ file:///path/to/repo" for local)'
+    required: false
+    default: 'hatch-dotenv'
+
 runs:
   using: composite
   steps:
@@ -12,4 +18,4 @@ runs:
 
     - name: Run integration tests
       shell: bash
-      run: ./integration_tests/run_tests_no_cache_clear.sh "hatch-dotenv"
+      run: ./integration_tests/run_tests_no_cache_clear.sh "${{ inputs.package }}"
