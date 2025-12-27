@@ -25,3 +25,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/run-unit-tests
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/run-integration-tests
+        with:
+          package: "hatch-dotenv @ file://${{ github.workspace }}"

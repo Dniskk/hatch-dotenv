@@ -17,11 +17,7 @@ generate_pyproject "$SCRIPT_DIR/happy-test"
 generate_pyproject "$SCRIPT_DIR/missing-test"
 
 cd "$SCRIPT_DIR/happy-test"
-pipx runpip hatch uninstall hatch-dotenv -y || true
-hatch run pip cache purge
 hatch run python -m happy_test
 
 cd "$SCRIPT_DIR/missing-test"
-pipx runpip hatch uninstall hatch-dotenv -y || true
-hatch run pip cache purge
 hatch run python -m missing_test

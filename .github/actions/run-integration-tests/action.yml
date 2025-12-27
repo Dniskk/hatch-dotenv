@@ -1,6 +1,12 @@
 name: Run Integration Tests
 description: Run integration tests for hatch-dotenv plugin
 
+inputs:
+  package:
+    description: 'The hatch-dotenv package requirement (e.g., "hatch-dotenv" for PyPI or "hatch-dotenv @ file:///path/to/repo" for local)'
+    required: false
+    default: 'hatch-dotenv'
+
 runs:
   using: composite
   steps:
@@ -10,27 +16,6 @@ runs:
     - name: Setup Hatch
       uses: ./.github/actions/setup-hatch
 
-    - name: Install package in editable mode
+    - name: Run integration tests
       shell: bash
-      run: pip install -e .
-
-    - name: Create test env files for happy-test
-      shell: bash
-      run: |
-        echo "MY_SECRET=abcde" > integration_tests/happy-test/.env
-        echo "MY_SECOND_SECRET=secret" > integration_tests/happy-test/.env.local
-
-    - name: Create test env files for missing-test
-      shell: bash
-      run: |
-        echo "SECRET=12345" > integration_tests/missing-test/.env
-
-    - name: Run happy-test
-      shell: bash
-      working-directory: integration_tests/happy-test
-      run: hatch run python -m happy_test
-
-    - name: Run missing-test
-      shell: bash
-      working-directory: integration_tests/missing-test
-      run: hatch run python -m missing_test
+      run: ./integration_tests/run_tests_no_cache_clear.sh "${{ inputs.package }}"
