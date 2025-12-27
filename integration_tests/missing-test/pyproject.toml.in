@@ -17,7 +17,7 @@ dependencies = []
 path = "src/missing_test/__about__.py"
 
 [tool.hatch.env]
-requires = ["hatch-dotenv"]
+requires = ["{{HATCH_DOTENV_PACKAGE}}"]
 
 [tool.hatch.env.collectors.dotenv.default]
 env-files = [".env.test", ".env"]
