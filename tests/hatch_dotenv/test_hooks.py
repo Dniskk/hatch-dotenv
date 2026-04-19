@@ -158,9 +158,7 @@ class TestFinalizeConfig:
         # env-vars dict is created but empty since no files were loaded
         assert config["default"]["env-vars"] == {}
 
-    def test_missing_file_injects_pre_install_failure_when_fail_on_missing(
-        self, mock_collector: MagicMock
-    ) -> None:
+    def test_missing_file_injects_pre_install_failure_when_fail_on_missing(self, mock_collector: MagicMock) -> None:
         """Missing files should defer failure to pre-install-commands, not raise immediately.
 
         Raising during finalize_config breaks unrelated commands (issue #2): hatch invokes
