@@ -1,3 +1,9 @@
+## v0.1.4rc0 (2026-04-19)
+
+### Fix
+
+- **#2**: defer fail-on-missing failure to env preparation (#6)
+
 ## v0.1.3 (2026-04-12)
 
 ## v0.1.3rc0 (2026-04-12)
