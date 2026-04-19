@@ -158,15 +158,42 @@ class TestFinalizeConfig:
         # env-vars dict is created but empty since no files were loaded
         assert config["default"]["env-vars"] == {}
 
-    def test_missing_file_raises_when_fail_on_missing(self, mock_collector: MagicMock) -> None:
-        """Missing files should raise FileNotFoundError when fail-on-missing is True."""
+    def test_missing_file_injects_pre_install_failure_when_fail_on_missing(self, mock_collector: MagicMock) -> None:
+        """Missing files should defer failure to pre-install-commands, not raise immediately.
+
+        Raising during finalize_config breaks unrelated commands (issue #2): hatch invokes
+        finalize_config for every operation, so a single misconfigured env would crash
+        `hatch publish`, `hatch build`, etc. Injecting into pre-install-commands defers
+        the failure until the env in question is actually prepared.
+        """
         mock_collector.config = {
             "default": {"env-files": [".env.nonexistent"], "fail-on-missing": True},
         }
         config: dict[str, dict[str, Any]] = {"default": {}}
 
-        with pytest.raises(FileNotFoundError, match="Environment file not found"):
-            self._finalize(mock_collector, config)
+        self._finalize(mock_collector, config)
+
+        pre_install = config["default"]["pre-install-commands"]
+        assert len(pre_install) == 1
+        assert ".env.nonexistent" in pre_install[0]
+        assert "default" in pre_install[0]
+
+    def test_missing_file_in_one_env_does_not_affect_other_env(self, mock_collector: MagicMock) -> None:
+        """fail-on-missing on env A must not block env B (issue #2)."""
+        env_file = mock_collector.root / ".env"
+        env_file.write_text("OK=ok\n")
+
+        mock_collector.config = {
+            "default": {"env-files": [".env"]},
+            "secrets": {"env-files": [".env.missing"], "fail-on-missing": True},
+        }
+        config: dict[str, dict[str, Any]] = {"default": {}, "secrets": {}}
+
+        self._finalize(mock_collector, config)
+
+        assert config["default"]["env-vars"]["OK"] == "ok"
+        assert "pre-install-commands" not in config["default"]
+        assert config["secrets"]["pre-install-commands"]
 
     def test_partial_missing_files_without_fail(self, mock_collector: MagicMock) -> None:
         """Existing files should be loaded even when some are missing."""

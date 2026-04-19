@@ -15,9 +15,15 @@ generate_pyproject() {
 
 generate_pyproject "$SCRIPT_DIR/happy-test"
 generate_pyproject "$SCRIPT_DIR/missing-test"
+generate_pyproject "$SCRIPT_DIR/cross-env-test"
 
 cd "$SCRIPT_DIR/happy-test"
 hatch run python -m happy_test
 
 cd "$SCRIPT_DIR/missing-test"
 hatch run python -m missing_test
+
+# Reproduces issue #2: a `secrets` env with fail-on-missing on a missing file
+# must not block running the unrelated `default` env.
+cd "$SCRIPT_DIR/cross-env-test"
+hatch run python -m cross_env_test
