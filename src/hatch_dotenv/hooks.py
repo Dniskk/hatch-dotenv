@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import shlex
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 
@@ -88,34 +89,43 @@ class DotenvCollector(EnvironmentCollectorInterface):
         It reads `env-files` from each environment and merges the loaded variables
         into the environment's `env-vars`.
 
+        When `fail-on-missing=true` and a referenced .env file is missing, a
+        `pre-install-commands` entry is appended to that env so the failure
+        only surfaces when the env is actually prepared — leaving unrelated
+        envs (and commands like `hatch publish`) untouched.
+
         Args:
             config: Dictionary of environment name -> environment configuration.
-
-        Raises:
-            FileNotFoundError: If the environment file is not found and fail-on-missing is True.
         """
         assert_config(self.config)  # pyright: ignore [reportUnknownMemberType, reportUnknownArgumentType]
         collector_config = cast("dict[str, CollectorConfig]", self.config)
 
         for env_name, env_entry in config.items():
-            # Pop env-files so it doesn't get passed to the environment
             env_config = collector_config.get(env_name, {})
             files = env_config.get("env-files", [])
             fail_on_missing = env_config.get("fail-on-missing", False)
             if not files:
                 continue
 
-            # Get or create the env-vars dict
             env_vars: dict[str, str] = env_entry.setdefault("env-vars", {})
 
             for env_file in files:
                 env_path = Path(self.root) / env_file  # pyright: ignore[reportUnknownArgumentType]
                 if not env_path.exists():
                     if fail_on_missing:
-                        error_message = f"Environment file not found: {env_file}"
-                        raise FileNotFoundError(error_message)
+                        _inject_missing_file_failure(env_entry, env_name, env_file)
                     continue
 
                 loaded_vars = dotenv_values(env_path)
-                # Filter out None values and update env_vars
                 env_vars.update({k: v for k, v in loaded_vars.items() if v is not None})
+
+
+def _inject_missing_file_failure(env_entry: dict[str, Any], env_name: str, env_file: str) -> None:
+    """Append a pre-install command that fails with a clear message about the missing file."""
+    error_message = f"hatch-dotenv: required env-file not found for env [{env_name}]: {env_file}"
+    # shlex.quote keeps the python script intact regardless of the message contents.
+    py_code = f"import sys; sys.exit({error_message!r})"
+    fail_command = f"python -c {shlex.quote(py_code)}"
+    pre_install: list[str] = env_entry.setdefault("pre-install-commands", [])
+    if fail_command not in pre_install:
+        pre_install.append(fail_command)
